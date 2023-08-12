@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1w39o4q" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.13.0">
+  <bpmn:process id="OrchestratorHybird2Process" isExecutable="true">
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1rzsvhh" name="payment successful?">
+      <bpmn:incoming>SequenceFlow_0n7ob57</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0bav0hs</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_13rtwpe</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_0n7ob57" sourceRef="Task_1pzexld" targetRef="ExclusiveGateway_1rzsvhh" />
+    <bpmn:sequenceFlow id="SequenceFlow_0bav0hs" name="Yes" sourceRef="ExclusiveGateway_1rzsvhh" targetRef="Task_1che2d1">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${paymentSuccessful== true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="EndEvent_1vs7e07">
+      <bpmn:incoming>SequenceFlow_13rtwpe</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_13rtwpe" name="No" sourceRef="ExclusiveGateway_1rzsvhh" targetRef="EndEvent_1vs7e07">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${paymentSuccessful== false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_1shz04t" sourceRef="Task_1che2d1" targetRef="Event_0ueohky" />
+    <bpmn:userTask id="Task_1pzexld" name="Initiate Payment">
+      <bpmn:incoming>Flow_1impn8q</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0n7ob57</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_1che2d1" name="Payment Recieved">
+      <bpmn:incoming>SequenceFlow_0bav0hs</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1shz04t</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_0ueohky">
+      <bpmn:incoming>SequenceFlow_1shz04t</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:startEvent id="Event_0aqx9jp">
+      <bpmn:outgoing>Flow_1impn8q</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1impn8q" sourceRef="Event_0aqx9jp" targetRef="Task_1pzexld" />
+  </bpmn:process>
+  <bpmn:message id="Message_0x8q0rf" name="payment recieved" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="OrchestratorHybird2Process">
+      <bpmndi:BPMNShape id="ExclusiveGateway_1rzsvhh_di" bpmnElement="ExclusiveGateway_1rzsvhh" isMarkerVisible="true">
+        <dc:Bounds x="405" y="125" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="401" y="86" width="58" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1vs7e07_di" bpmnElement="EndEvent_1vs7e07">
+        <dc:Bounds x="412" y="262" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_04555th_di" bpmnElement="Task_1pzexld">
+        <dc:Bounds x="250" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1tu024g_di" bpmnElement="Task_1che2d1">
+        <dc:Bounds x="520" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ueohky_di" bpmnElement="Event_0ueohky">
+        <dc:Bounds x="672" y="132" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0aqx9jp_di" bpmnElement="Event_0aqx9jp">
+        <dc:Bounds x="152" y="132" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0n7ob57_di" bpmnElement="SequenceFlow_0n7ob57">
+        <di:waypoint x="350" y="150" />
+        <di:waypoint x="405" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0bav0hs_di" bpmnElement="SequenceFlow_0bav0hs">
+        <di:waypoint x="455" y="150" />
+        <di:waypoint x="520" y="150" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="471" y="132" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_13rtwpe_di" bpmnElement="SequenceFlow_13rtwpe">
+        <di:waypoint x="430" y="175" />
+        <di:waypoint x="430" y="262" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="438" y="216" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1impn8q_di" bpmnElement="Flow_1impn8q">
+        <di:waypoint x="188" y="150" />
+        <di:waypoint x="250" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1shz04t_di" bpmnElement="SequenceFlow_1shz04t">
+        <di:waypoint x="620" y="150" />
+        <di:waypoint x="672" y="150" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
